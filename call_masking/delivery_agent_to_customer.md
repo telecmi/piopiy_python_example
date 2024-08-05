@@ -10,19 +10,19 @@ Before you start, ensure you have completed the [ prerequisite steps ](/README.m
 
 ### 2.Configure the call parameters
 
-Replace the value in the [ Delivery agent to customer ](/call_masking/delivery_agent_to_customer.js) code with your actual values for
+Replace the value in the [ Delivery agent to customer ](/call_masking/delivery_agent_to_customer.py) code with your actual values for
 
-- [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_node_example/blob/development/call_masking/delivery_agent_to_customer.js#L2)
-- [**delivery_agent_number**](https://github.com/telecmi/piopiy_node_example/blob/development/call_masking/delivery_agent_to_customer.js#L4)
-- [**call_masking_number**](https://github.com/telecmi/piopiy_node_example/blob/development/call_masking/delivery_agent_to_customer.js#L5)
-- [**customer_number**](https://github.com/telecmi/piopiy_node_example/blob/development/call_masking/delivery_agent_to_customer.js#L6)
+- [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_python_example/blob/development/call_masking/delivery_agent_to_customer.py#L5)
+- [**delivery_agent_number**](https://github.com/telecmi/piopiy_python_example/blob/development/call_masking/delivery_agent_to_customer.py#L7)
+- [**call_masking_number**](https://github.com/telecmi/piopiy_python_example/blob/development/call_masking/delivery_agent_to_customer.py#L8)
+- [**customer_number**](https://github.com/telecmi/piopiy_python_example/blob/development/call_masking/delivery_agent_to_customer.py#L9)
 
 ### 3.Run the code
 
-Execute the code using Node.js:
+Execute the code using Python:
 
-```sh
-node call_masking/delivery_agent_to_customer.js
+```bash
+python call_masking/delivery_agent_to_customer.py
 ```
 
 ### 4.Expected call flow
@@ -33,28 +33,39 @@ When the code is executed, the call will follow these steps:
 
 **2.Delivery agent answers call:** Once the agent answers the call, the call will automatically connect to the customer's number.
 
-You can handle these steps programmatically using the Piopiy package. Ensure that your [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_node_example/blob/development/call_masking/delivery_agent_to_customer.js#L2) are correctly configured, and the [**delivery_agent_number**](https://github.com/telecmi/piopiy_node_example/blob/development/call_masking/delivery_agent_to_customer.js#L4), [**call_masking_number**](https://github.com/telecmi/piopiy_node_example/blob/development/call_masking/delivery_agent_to_customer.js#L5), and [**customer_number**](https://github.com/telecmi/piopiy_node_example/blob/development/call_masking/delivery_agent_to_customer.js#L6) provided are valid.
+You can handle these steps programmatically using the Piopiy package. Ensure that your [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_python_example/blob/development/call_masking/delivery_agent_to_customer.py#L5) are correctly configured, and the [**delivery_agent_number**](https://github.com/telecmi/piopiy_python_example/blob/development/call_masking/delivery_agent_to_customer.py#L7), [**call_masking_number**](https://github.com/telecmi/piopiy_python_example/blob/development/call_masking/delivery_agent_to_customer.py#L8), and [**customer_number**](https://github.com/telecmi/piopiy_python_example/blob/development/call_masking/delivery_agent_to_customer.py#L9) provided are valid.
 
 ## Example usage
 
 Replace the placeholders in the code with your actual values:
 
-```javascript
-const { Piopiy } = require("piopiy");
-const piopiy = new Piopiy("your_app_id", "your_app_secret");
+```python
+from piopiy import RestClient
 
-const delivery_agent_number = "Your delivery agent number"; // Example delivery agent phone number
-const call_masking_number = "Your call masking number"; // Example call masking number
-const customer_number = "Your customer number"; // Example customer phone number
-const options = { duration: 15, timeout: 25, loop: 2 };
+def make_call():
+    # Initialize RestClient with your API Key and Secret
+    piopiy = RestClient("your_app_id", "your_app_secret")
 
-piopiy.voice.call(delivery_agent_number, call_masking_number, customer_number, options)
-  .then((res) => {
-    console.log("Sucess response:", res);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+    delivery_agent_number = "Your delivery agent phone number"  # Your delivery agent phone number with country code
+    call_masking_number = "Your call masking number"  # Your call masking number provided by the Piopiy TeleCMI platform
+    customer_number = "Your customer number"  # Your customer phone number with country code
+
+    options = {
+        'duration': 10,     # (Optional) Maximum duration of the call in seconds
+        'timeout': 20,      # (Optional) Time to wait for the call to be answered
+        'loop': 1           # (Optional) Number of retry attempts if the call is not answered
+    }
+
+    try:
+        # Make the call
+        response = piopiy.voice.call(delivery_agent_number, call_masking_number, customer_number, options)
+        print("Call connected, answer URL:", response)
+    except Exception as error:
+        print("Error:", error)
+
+if __name__ == '__main__':
+    make_call()
+
 ```
 
 ## Parameters type and description
@@ -84,8 +95,7 @@ These are the list of parameters and its description
 
 Below is the following sample call response.
 
-```javascript
-
+```python
 {
   "data": { "status": 'progress' },
   "status": 'progress',

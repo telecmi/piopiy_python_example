@@ -10,41 +10,46 @@ Before you start, ensure you have completed the [ prerequisite steps ](/README.m
 
 ### 2.Configure the call parameters
 
-Replace the value in the [ Customer to delivery agent ](/call_masking/customer_to_delivery_agent.js) code with your actual values for
+Replace the value in the [ Customer to delivery agent ](/call_masking/customer_to_delivery_agent.py) code with your actual values for
 
-- [**delivery_agent_number**](https://github.com/telecmi/piopiy_node_example/blob/development/call_masking/customer_to_delivery_agent.js#L11)
-- [**call_masking_number**](https://github.com/telecmi/piopiy_node_example/blob/development/call_masking/customer_to_delivery_agent.js#L12)
+- [**delivery_agent_number**](https://github.com/telecmi/piopiy_python_example/blob/development/call_masking/customer_to_delivery_agent.py#L10)
+- [**call_masking_number**](https://github.com/telecmi/piopiy_python_example/blob/development/call_masking/customer_to_delivery_agent.py#L11)
 
-### 3.Create and run the Express.js server
+### 3.Create and run the Flask server
 
-Create a simple Express.js server to handle inbound calls:
+Create a simple Flask server to handle inbound calls:
 
-```javascript
-const express = require("express");
-const { PiopiyAction } = require("piopiy");
-const app = express();
-app.use(express.json());
+```python
+from flask import Flask, request, jsonify
+from piopiy import Action
 
-app.post("/inbound", (req, res) => {
-  const action = new PiopiyAction();
+app = Flask(__name__)
 
-  const delivery_agent_number = "Your delivery agent number"; // Example delivery agent phone number
-  const call_masking_number = "Your call masking number"; // Example call masking number
-  const options = { duration: 15, timeout: 25, loop: 2 };
+@app.route('/inbound', methods=['POST'])
+def inbound():
+    action = Action()
 
-  action.call(delivery_agent_number, call_masking_number, options);
-  res.send(action.PCMO());
-});
+    delivery_agent_number = "Your delivery agent phone number"  # Your delivery agent phone number with country code
+    call_masking_number = "Your call masking number"  # Your call masking number provided by the Piopiy TeleCMI platform
 
-app.listen(3001, () => {
-  console.log("Server is running on port 3001");
-});
+    options = {
+        'duration': 10,     # (Optional) Maximum duration of the call in seconds
+        'timeout': 20,      # (Optional) Time to wait for the call to be answered
+        'loop': 1           # (Optional) Number of retry attempts if the call is not answered
+    }
+
+    action.call(delivery_agent_number, call_masking_number, options)
+    return jsonify(action.PCMO())
+
+if __name__ == '__main__':
+    app.run(port=3001, debug=True)
+
 ```
 
 Run the server:
 
-```sh
-node call_masking/customer_to_delivery_agent.js
+```bash
+python call_masking/customer_to_delivery_agent.py
 ```
 
 ## Parameters type and description
