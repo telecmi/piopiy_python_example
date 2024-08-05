@@ -10,48 +10,48 @@ Before you start, ensure you have completed the [ prerequisite steps ](/README.m
 
 ### 2.Configure the call parameters
 
-Replace the value in the [ Inbound call center ](/inbound_call_center/inbound_call.js) code with your actual values for
+Replace the value in the [ Inbound call center ](/inbound_call_center/inbound_call.py) code with your actual values for
 
-- [**multiple_agent_number**](https://github.com/telecmi/piopiy_node_example/blob/development/inbound_call_center/inbound_call.js#L11)
+- [**multiple_agent_number**](https://github.com/telecmi/piopiy_python_example/blob/development/inbound_call_center/inbound_call.py#L10)
 
-- [**piopiy_number**](https://github.com/telecmi/piopiy_node_example/blob/development/inbound_call_center/inbound_call.js#L12)
+- [**piopiy_number**](https://github.com/telecmi/piopiy_python_example/blob/development/inbound_call_center/inbound_call.py#L11)
 
-### 3.Create and run the Express.js server
+### 3.Create and run the Flask server
 
-Create a simple Express.js server to handle inbound calls:
+Create a simple Flask server to handle inbound calls:
 
-```javascript
-const express = require("express");
-const { PiopiyAction } = require("piopiy");
-const app = express();
-app.use(express.json());
+```python
+from flask import Flask, request, jsonify
+from piopiy import Action
 
-app.post("/inbound-call", (req, res) => {
-  const action = new PiopiyAction();
+app = Flask(__name__)
 
-  const multiple_agent_number = ["Your agent phone number", "Your agent phone number"]; // Multiple agent's phone number with country code
-  const piopiy_number = "Your piopiy number"; // Your piopiy number provided by the Piopiy TeleCMI platform.
+@app.route('/inbound-call', methods=['POST'])
+def inbound_call():
+    action = Action()
 
-  const options = {
-    duration: 10, // (Optional) Maximum duration of the call in seconds
-    timeout: 20, // (Optional) Time to wait for the call to be answered
-    loop: 1, // (Optional) Number of retry attempts if the call is not answered
-    ring_type: "group", // (Optional) Type of ringing for the call.
-  };
+    multiple_agent_number = ["Your agent phone number", "Your agent phone number"]  # Multiple agent's phone numbers with country code
+    piopiy_number = "Your piopiy number"  # Your piopiy number provided by the Piopiy TeleCMI platform
 
-  action.call(multiple_agent_number, piopiy_number, options);
-  res.send(action.PCMO());
-});
+    options = {
+        'duration': 10,     # (Optional) Maximum duration of the call in seconds
+        'timeout': 20,      # (Optional) Time to wait for the call to be answered
+        'loop': 1,          # (Optional) Number of retry attempts if the call is not answered
+        'ring_type': "group" # (Optional) Type of ringing for the call
+    }
 
-app.listen(3001, () => {
-  console.log("Server is running on port 3001");
-});
+    action.call(multiple_agent_number, piopiy_number, options)
+    return jsonify(action.PCMO())
+
+if __name__ == '__main__':
+    app.run(port=3001, debug=True)
+
 ```
 
 Run the server:
 
-```sh
-node inbound_call_center/inbound_call.js
+```bash
+python inbound_call_center/inbound_call.py
 ```
 
 ## Parameters type and description
@@ -101,4 +101,4 @@ When the code is executed, the call will follow these steps:
 
 **2.Call is Routed to Agents:** The call is routed to the agents' numbers provided in the multiple_agent_number array.
 
-You can handle these steps programmatically using the Piopiy package. Ensure that your [multiple_agent_number](https://github.com/telecmi/piopiy_node_example/blob/development/inbound_call_center/inbound_call.js#L11) and [piopiy_number](https://github.com/telecmi/piopiy_node_example/blob/development/inbound_call_center/inbound_call.js#L12) are correctly configured.
+You can handle these steps programmatically using the Piopiy package. Ensure that your [multiple_agent_number](https://github.com/telecmi/piopiy_python_example/blob/development/inbound_call_center/inbound_call.py#L10) and [piopiy_number](https://github.com/telecmi/piopiy_python_example/blob/development/inbound_call_center/inbound_call.py#L11) are correctly configured.
