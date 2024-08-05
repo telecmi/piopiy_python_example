@@ -10,19 +10,19 @@ Before you start, ensure you have completed the [ prerequisite steps ](/README.m
 
 ### 2.Configure the call parameters
 
-Replace the value in the [ Outbound Dialer ](/outbound_dialer/dialer_call.js) code with your actual values for
+Replace the value in the [ Outbound Dialer ](/outbound_dialer/dialer_call.py) code with your actual values for
 
-- [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_node_example/blob/development/outbound_dialer/dialer_call.js#L2)
-- [**customer_number**](https://github.com/telecmi/piopiy_node_example/blob/development/outbound_dialer/dialer_call.js#L4)
-- [**piopiy_number**](https://github.com/telecmi/piopiy_node_example/blob/development/outbound_dialer/dialer_call.js#L5)
-- [**multiple_agent_number**](https://github.com/telecmi/piopiy_node_example/blob/development/outbound_dialer/dialer_call.js#L6)
+- [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_python_example/blob/development/outbound_dialer/dialer_call.py#L5)
+- [**customer_number**](https://github.com/telecmi/piopiy_python_example/blob/development/outbound_dialer/dialer_call.py#L7)
+- [**piopiy_number**](https://github.com/telecmi/piopiy_python_example/blob/development/outbound_dialer/dialer_call.py#L8)
+- [**multiple_agent_number**](https://github.com/telecmi/piopiy_python_example/blob/development/outbound_dialer/dialer_call.py#L9)
 
 ### 3.Run the code
 
-Execute the code using Node.js:
+Execute the code using Python:
 
-```sh
-node outbound_dialer/dialer_call.js
+```bash
+python outbound_dialer/dialer_call.py
 ```
 
 ### 4.Expected call flow
@@ -33,33 +33,40 @@ When the code is executed, the call will follow these steps:
 
 **2.Customer Answers Call:** Once the customer answers the call, the call is routed to one of the agent numbers.
 
-You can handle these steps programmatically using the Piopiy package. Ensure that your [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_node_example/blob/development/outbound_dialer/dialer_call.js#L2), [**customer_number**](https://github.com/telecmi/piopiy_node_example/blob/development/outbound_dialer/dialer_call.js#L4), [**piopiy_number**](https://github.com/telecmi/piopiy_node_example/blob/development/outbound_dialer/dialer_call.js#L5), and [**multiple_agent_number**](https://github.com/telecmi/piopiy_node_example/blob/development/outbound_dialer/dialer_call.js#L6) provided are valid.
+You can handle these steps programmatically using the Piopiy package. Ensure that your [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_python_example/blob/development/outbound_dialer/dialer_call.py#L5), [**customer_number**](https://github.com/telecmi/piopiy_python_example/blob/development/outbound_dialer/dialer_call.py#L7), [**piopiy_number**](https://github.com/telecmi/piopiy_python_example/blob/development/outbound_dialer/dialer_call.py#L8), and [**multiple_agent_number**](https://github.com/telecmi/piopiy_python_example/blob/development/outbound_dialer/dialer_call.py#L9) provided are valid.
 
 ## Example usage
 
 Replace the placeholders in the code with your actual values:
 
-```javascript
-const { Piopiy } = require("piopiy");
-const piopiy = new Piopiy("your_app_id", "your_app_secret");
+```python
+from piopiy import RestClient
 
-const customer_number = "Your customer number"; // Your customer phone number with country code.
-const piopiy_number = "Your piopiy number"; // Your piopiy number provided by the Piopiy TeleCMI platform.
-const multiple_agent_number = ["Your agent phone number", "Your agent phone number"]; // Multiple agent's phone number with country code.
-const options = {
-  duration: 10, // (Optional) Maximum duration of the call in seconds.
-  timeout: 20, // (Optional) Time to wait for the call to be answered.
-  loop: 1, // (Optional) Number of retry attempts if the call is not answered.
-  ring_type: "group", // (Optional) Type of ringing for the call.
-};
+def make_call():
+    # Initialize RestClient with your API Key and Secret
+    piopiy = RestClient("your_app_id", "your_app_secret")
 
-piopiy.voice.call(customer_number, piopiy_number, multiple_agent_number, options)
-  .then((res) => {
-    console.log("Success res:", res);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+    customer_number = "Customer number"  # Your customer phone number with country code
+    piopiy_number = "Your piopiy number"  # Your piopiy number provided by the Piopiy TeleCMI platform
+    multiple_agent_number = ["Your agent phone number", "Your agent phone number"]  # Multiple agent's phone numbers with country code
+
+    options = {
+        'duration': 10,     # (Optional) Maximum duration of the call in seconds
+        'timeout': 20,      # (Optional) Time to wait for the call to be answered
+        'loop': 1,          # (Optional) Number of retry attempts if the call is not answered
+        'ring_type': "group" # (Optional) Type of ringing for the call
+    }
+
+    try:
+        # Make the call
+        response = piopiy.voice.call(customer_number, piopiy_number, multiple_agent_number, options)
+        print('Success response:', response)
+    except Exception as error:
+        print('Error:', error)
+
+if __name__ == '__main__':
+    make_call()
+
 ```
 
 ## Parameters type and description
@@ -90,7 +97,7 @@ These are the list of parameters and its description
 
 Below is the following sample call response.
 
-```javascript
+```python
 
 {
   "data": { "status": 'progress' },
