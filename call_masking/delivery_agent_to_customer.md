@@ -59,7 +59,7 @@ def make_call():
     try:
         # Make the call
         response = piopiy.voice.call(delivery_agent_number, call_masking_number, customer_number, options)
-        print("Call connected, answer URL:", response)
+        print("Success response:", response)
     except Exception as error:
         print("Error:", error)
 

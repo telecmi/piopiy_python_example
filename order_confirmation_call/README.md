@@ -10,13 +10,13 @@ Before you start, ensure you have completed the [ prerequisite steps ](/README.m
 
 ### 2.Configure the call parameters
 
-Replace the value in the [ order confirmation call ](/order_confirmation_call/confirmation_call.js) code with your actual values for
+Replace the value in the [ order confirmation call ](/order_confirmation_call/confirmation_call.py) code with your actual values for
 
-- [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L6)
-- [**ngrok URL**](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L10)
-- [**music_file**](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L9)
-- [**customer_number**](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L11)
-- [**piopiy_number**](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L12)
+- [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L7)
+- [**ngrok URL**](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L11)
+- [**music_file**](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L10)
+- [**customer_number**](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L12)
+- [**piopiy_number**](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L13)
 
 ### 3. Create a public URL using ngrok
 
@@ -30,20 +30,20 @@ Copy the URL provided by ngrok. This URL will look something like **https://ngro
 
 ### 4.Configure piopiy to use the ngrok URL
 
-In your code where you configure the [ngrok URL](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L10), replace it with the copied Ngrok URL, appending the **/dtmf** path. For example:
+In your code where you configure the [ngrok URL](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L11), replace it with the copied Ngrok URL, appending the **/dtmf** path. For example:
 
-```sh
-const ngrok_url = 'https://ngrok.order.confirmation.io/dtmf'; // Replace with your actual Ngrok URL
+```bash
+const ngrok_url = 'https://ngrok.order.confirmation.io/dtmf';  # Replace with your actual Ngrok URL
 ```
 
 This URL is used to send requests to your local server, specifically to the **/dtmf** endpoint that handles DTMF inputs.
 
 ### 5.Run the code
 
-Execute the code using Node.js:
+Execute the code using Python:
 
-```sh
-node order_confirmation_call/confirmation_call.js
+```bash
+python order_confirmation_call/confirmation_call.py
 ```
 
 ### 6. Expected call flow
@@ -61,60 +61,59 @@ When the code is executed, the call will follow these steps:
 - If the customer presses 1, a confirmation music file plays, indicating the order was confirmed.
 - If the customer does not press 1 or presses another input, an order cancellation music file plays, indicating the order was canceled.
 
-You can handle these steps programmatically using the Piopiy package. Ensure that your [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L6) are correctly configured, and the [**music_file**](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L9), [**customer_number**](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L11), [**piopiy_number**](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L12) and [**ngrok URL**](https://github.com/telecmi/piopiy_node_example/blob/development/order_confirmation_call/confirmation_call.js#L10) provided are valid.
+You can handle these steps programmatically using the Piopiy package. Ensure that your [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L7) are correctly configured, and the [**music_file**](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L10), [**customer_number**](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L12), [**piopiy_number**](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L13) and [**ngrok URL**](https://github.com/telecmi/piopiy_python_example/blob/development/order_confirmation_call/confirmation_call.py#L11) provided are valid.
 
 ## Example usage
 
 Replace the placeholders in the code with your actual values:
 
-```javascript
-const { Piopiy, PiopiyAction } = require("piopiy");
-const express = require("express");
-const app = express();
-app.use(express.json());
+```python
+from flask import Flask, request, jsonify
+from piopiy import RestClient, Action
 
-const piopiy = new Piopiy("your_app_id", "your_app_secret");
-const action = new PiopiyAction();
+app = Flask(__name__)
 
-const music_file = "https://example.com/your_order_confirmation_music.mp3"; // Your order confimation music file or music file URL
-const ngrok_url = "https://ngrok.order.confirmation.io/dtmf"; // Replace with your actual Ngrok URL
-const customer_number = "Your customer number"; // Your customer phone number with country code
-const piopiy_number = "Your piopiy number"; // Your piopiy number provided by the Piopiy TeleCMI platform
-const options = {
-  max_digit: 1, // (Optional) Maximum number of digits expected from the user input
-  max_retry: 1, // (Optional) Maximum number of retry attempts
-  timeout: 1, // (Optional) Time allowed between DTMF inputs in seconds
-};
+# Initialize RestClient with your API Key and Secret
+piopiy = RestClient("your_app_id", "your_app_secret")
+action = Action()
 
-// Initiate the call
-action.playGetInput(ngrok_url, music_file, options);
+music_file = 'Your order confimation music file or music file URL'  # Your order confimation music file or music file URL
+ngrok_url = 'http://ngrok.order.confirmation.io/dtmf'  # Add your local ngrok URL
+customer_number = "Your customer number"  # Your customer phone number with country code
+piopiy_number = "Your piopiy number"  # Your piopiy number provided by the Piopiy TeleCMI platform
+order_confimation_pcmo_function = action.PCMO()  # Use this PCMO function to confirm your order input
 
-piopiy.voice.call(customer_number, piopiy_number, action.PCMO())
-  .then((res) => {
-    console.log("Success response:", res);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+options = {
+    'max_digit': 1,     # (Optional) Maximum number of digits expected from the user input
+    'max_retry': 1,     # (Optional) Maximum number of retry attempts
+    'timeout': 1        # (Optional) Time allowed between DTMF inputs in seconds
+}
 
-// Set up the webhook server
-app.post("/dtmf", (req, res) => {
-  const action = new PiopiyAction();
-  const dtmf = req.body.dtmf; // Assuming DTMF input is in the body of the request
+# Initiate the call
+action.playGetInput(ngrok_url, music_file, options)
 
-  if (dtmf == 1) {
-    // Music to play if customer confirms the order
-    action.playMusic("https://example.com/your_confirmation_music.mp3");
-  } else {
-    // Music to play if customer cancel the order
-    action.playMusic("https://example.com/your_order_not_confirmed_music.mp3");
-  }
-  res.send(action.PCMO());
-});
+try:
+    response = piopiy.voice.call(customer_number, piopiy_number, order_confimation_pcmo_function)
+    print('Success response:', response)
+except Exception as error:
+    print('Error:', error)
 
-app.listen(3001, () => {
-  console.log(`Server is running on port 3001`);
-});
+# Set up the webhook server
+@app.route('/dtmf', methods=['POST'])
+def dtmf():
+    action = Action()
+    dtmf = request.json.get('dtmf')  # Assuming DTMF input is in the body of the request
+
+    if dtmf == 1:
+        action.playMusic("Your example order confirmation music file or music file URL")
+        return jsonify(action.PCMO())
+    else:
+        action.playMusic("Your example order cancellation music file or music file URL")
+        return jsonify(action.PCMO())
+
+if __name__ == '__main__':
+    app.run(port=3001, debug=True)
+
 ```
 
 ## Parameters type and description
@@ -144,7 +143,7 @@ These are the list of parameters and its description
 
 Below is the following sample call response.
 
-```javascript
+```python
 
 {
   "data": { "status": 'progress' },
