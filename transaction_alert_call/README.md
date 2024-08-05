@@ -10,19 +10,19 @@ Before you start, ensure you have completed the [ prerequisite steps ](/README.m
 
 ### 2.Configure the call parameters
 
-Replace the value in the [ Transaction alert call ](/transaction_alert_call/alert_call.js) code with your actual values for
+Replace the value in the [ Transaction alert call ](/transaction_alert_call/alert_call.py) code with your actual values for
 
-- [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_node_example/blob/development/transaction_alert_call/alert_call.js#L2)
-- [**music_file**](https://github.com/telecmi/piopiy_node_example/blob/development/transaction_alert_call/alert_call.js#L5)
-- [**customer_number**](https://github.com/telecmi/piopiy_node_example/blob/development/transaction_alert_call/alert_call.js#L6)
-- [**piopiy_number**](https://github.com/telecmi/piopiy_node_example/blob/development/transaction_alert_call/alert_call.js#L7)
+- [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_python_example/blob/development/transaction_alert_call/alert_call.py#L5)
+- [**music_file**](https://github.com/telecmi/piopiy_python_example/blob/development/transaction_alert_call/alert_call.py#L8)
+- [**customer_number**](https://github.com/telecmi/piopiy_python_example/blob/development/transaction_alert_call/alert_call.py#L9)
+- [**piopiy_number**](https://github.com/telecmi/piopiy_python_example/blob/development/transaction_alert_call/alert_call.py#L10)
 
 ### 3.Run the code
 
-Execute the code using Node.js:
+Execute the code using Python:
 
-```sh
-node transaction_alert_call/alert_call.js
+```bash
+python transaction_alert_call/alert_call.py
 ```
 
 ### 4.Expected call flow
@@ -33,31 +33,43 @@ When the code is executed, the call will follow these steps:
 
 **2.Customer Answers Call:** Once the customer answers the call, alert music is played to notify them of the transaction.
 
-You can handle these steps programmatically using the Piopiy package. Ensure that your [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_node_example/blob/development/transaction_alert_call/alert_call.js#L2) are correctly configured, and the [**music_file**](https://github.com/telecmi/piopiy_node_example/blob/development/transaction_alert_call/alert_call.js#L5), [**customer_number**](https://github.com/telecmi/piopiy_node_example/blob/development/transaction_alert_call/alert_call.js#L6) and [**piopiy_number**](https://github.com/telecmi/piopiy_node_example/blob/development/transaction_alert_call/alert_call.js#L7) provided are valid.
+You can handle these steps programmatically using the Piopiy package. Ensure that your [**app_id** & **app_secret**](https://github.com/telecmi/piopiy_python_example/blob/development/transaction_alert_call/alert_call.py#L5) are correctly configured, and the [**music_file**](https://github.com/telecmi/piopiy_python_example/blob/development/transaction_alert_call/alert_call.py#L8), [**customer_number**](https://github.com/telecmi/piopiy_python_example/blob/development/transaction_alert_call/alert_call.py#L9) and [**piopiy_number**](https://github.com/telecmi/piopiy_python_example/blob/development/transaction_alert_call/alert_call.py#L10) provided are valid.
 
 ## Example usage
 
 Replace the placeholders in the code with your actual values:
 
-```javascript
-const { Piopiy, PiopiyAction } = require("piopiy");
-const piopiy = new Piopiy("your_app_id", "your_app_secret");
-const action = new PiopiyAction();
+```python
+from piopiy import RestClient, Action
 
-const music_file = "Your example music file or music file URL"; // Example alert music file or music file URL
-const customer_number = "Your customer number"; // Example customer phone number
-const piopiy_number = "Your piopiy number"; // Example piopiy number
-const alert_music_pcmo_function = action.PCMO(); // Use this PCMO function to play your alert music.
+def main():
+    # Initialize RestClient with your API Key and Secret
+    piopiy = RestClient("your_app_id", "your_app_secret")
+    action = Action()
 
-action.playMusic(music_file);
+    music_file = 'Your alert music file or music file URL'  # Your alert music file or music file URL
+    customer_number = "Customer number"  # Your customer phone number with country code
+    piopiy_number = "Your piopiy number"  # Your piopiy number provided by the Piopiy TeleCMI platform
+    alert_music_pcmo_function = action.PCMO()  # Use this PCMO function to play your alert music
 
-piopiy.voice.call(customer_number, piopiy_number, alert_music_pcmo_function, options)
-  .then((res) => {
-    console.log("Success response:", res);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+    action.playMusic(music_file)
+
+    options = {
+        'duration': 10,     # (Optional) Maximum duration of the call in seconds
+        'timeout': 20,      # (Optional) Time to wait for the call to be answered
+        'loop': 1,          # (Optional) Number of retry attempts if the call is not answered
+        'ring_type': "group" # (Optional) Type of ringing for the call
+    }
+
+    try:
+        # Make the call
+        response = piopiy.voice.call(customer_number, piopiy_number, alert_music_pcmo_function, options)
+        print('Success response:', response)
+    except Exception as error:
+        print('Error:', error)
+
+if __name__ == '__main__':
+    main()
 ```
 
 ## Parameters type and description
@@ -76,7 +88,7 @@ These are the list of parameters and its description
 
 Below is the following sample call response.
 
-```javascript
+```python
 
 {
   "data": { "status": 'progress' },
