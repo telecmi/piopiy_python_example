@@ -1,5 +1,5 @@
 Flask==3.0.3
-piopiy==1.0.6.2
+piopiy==1.0.7.1
 websockets==13.0.1
 websocket-client==1.8.0
 groq==0.11.0

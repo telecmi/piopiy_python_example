@@ -22,7 +22,7 @@ def get_speech(text):
 
     
 
-    TARGET_CHUNK_SIZE = 90 * 1024 
+    TARGET_CHUNK_SIZE = 50 * 1024 
    
     response = requests.post(DEEPGRAM_URL, headers=headers, json=payload, stream=True)
      
@@ -30,7 +30,7 @@ def get_speech(text):
       
         accumulated_chunk = b""
         # Iterate over the response content in chunks
-        for chunk in response.iter_content(chunk_size=1009600):
+        for chunk in response.iter_content(chunk_size=1020):
             if chunk:
                 
                 # Accumulate chunks
@@ -40,15 +40,16 @@ def get_speech(text):
                     asyncio.run(send_audio_stream(accumulated_chunk[:TARGET_CHUNK_SIZE]))  # Send the 400KB chunk
                     accumulated_chunk = accumulated_chunk[TARGET_CHUNK_SIZE:]  # Keep any remaining data
 
-                # Process each chunk and stream it immediately
+        # Process each chunk and stream it immediately
         if accumulated_chunk:
             asyncio.run(send_audio_stream(accumulated_chunk))
 
 async def send_audio_stream(audio_stream):
     
-
+    stream_action = StreamAction()
     b64_audio_chunk = base64.b64encode(audio_stream).decode('utf-8')
-    await sales_agent_ws.send(json.dumps({"type": "streamAudio","data": {"audioDataType": "raw","sampleRate": 8000,"audioData": b64_audio_chunk}}))
+    
+    await sales_agent_ws.send(stream_action.playStream(audio_base64=b64_audio_chunk,audio_type="raw",sample_rate=8000))
     
     
 def set_wss(ws):

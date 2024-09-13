@@ -1,2 +1,5 @@
 
 menv/
+ai_presales/tts/__pycache__/deepgram.cpython-310.pyc
+ai_presales/asr/__pycache__/deepgram.cpython-310.pyc
+ai_presales/llm/__pycache__/groq.cpython-310.pyc

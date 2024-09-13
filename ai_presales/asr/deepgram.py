@@ -2,7 +2,6 @@ from websocket import WebSocketApp
 import websocket
 import json
 import threading
-import requests
 import os
 import time
 from llm.groq import chat_with_assistant
@@ -55,8 +54,7 @@ def start_deepgram():
  def on_error(ws, error):
     print("WebSocket error:", error)
 
- # Define the function to stream audio to the WebSocket
- 
+
 # Create WebSocket connection
  ws = WebSocketApp(ws_url, on_open=on_open, on_message=on_message, on_close=on_close, on_error=on_error, header=headers)
 
