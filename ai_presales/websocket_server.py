@@ -18,8 +18,7 @@ async def handle_client(websocket, path):
                 stream_audio(message)
             else:
                 print("Received non-binary message:", message)
-                await websocket.send("Message received and processed")
-
+              
     except websockets.exceptions.ConnectionClosed as e:
         print(f"Connection closed: {e.code} - {e.reason}")
     finally:
