@@ -56,7 +56,7 @@ def chat_with_assistant(user_input):
   # Append the response to the chat history
   
   # Print the response
-  print("Assistant:", response.choices[0].message.content)
+  print("Result:", response.choices[0].message.content)
   response_message = response.choices[0].message
   tool_calls = response_message.tool_calls
   if tool_calls:
