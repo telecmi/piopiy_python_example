@@ -18,7 +18,7 @@ def main():
         }
 
         # Make the call
-        response = piopiy.voice.call(agent_number, piopiy_number, customer_number, options)
+        response = piopiy.voice.call(customer_number, piopiy_number, agent_number, options)
 
         print('Call connected, answer URL:', response)
 

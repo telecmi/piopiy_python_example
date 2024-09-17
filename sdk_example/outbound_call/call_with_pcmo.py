@@ -27,10 +27,10 @@ def main():
         action.playMusic('https://example.com/your_music_file.wav')
 
         # Initiate the call to the customer
-        action.call(customer_number, piopiy_number, options)
+        action.call(agent_number, piopiy_number, options)
 
         # Make the call to the agent with PCMO actions
-        response = piopiy.voice.call(agent_number, piopiy_number, pcmo_function, options)
+        response = piopiy.voice.call(customer_number, piopiy_number, pcmo_function, options)
 
         print('Call with PCMO actions connected, answer URL:', response)
 
