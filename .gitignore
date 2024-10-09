@@ -10,3 +10,8 @@ ai_customer_support/tts/__pycache__/deepgram.cpython-310.pyc
 .DS_Store
 ai_agent_assist/asr/__pycache__/deepgram.cpython-310.pyc
 ai_agent_assist/llm/__pycache__/groq.cpython-310.pyc
+menv/
+ai_presales/llm/__pycache__/groq.cpython-312.pyc
+ai_presales/asr/__pycache__/deepgram.cpython-312.pyc
+ai_presales/tts/__pycache__/deepgram.cpython-312.pyc
+ai_presales/tts/__pycache__/elevenlabs.cpython-312.pyc

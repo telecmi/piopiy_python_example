@@ -1,7 +1,8 @@
 
 import os
 from groq import Groq
-from tts.deepgram import get_speech
+#from tts.deepgram import get_speech
+from tts.elevenlabs import get_speech
 
 groq_key=os.environ.get("GROQ_API_KEY")
 

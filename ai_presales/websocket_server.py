@@ -2,8 +2,8 @@ import asyncio
 import websockets
 from piopiy import StreamAction
 from asr.deepgram import stream_audio
-from tts.deepgram import set_wss
-
+#from tts.deepgram import set_wss
+from tts.elevenlabs import set_wss
 global wss
 async def handle_client(websocket, path):
     print("Client connected")
