@@ -11,7 +11,16 @@ ai_customer_support/tts/__pycache__/deepgram.cpython-310.pyc
 ai_agent_assist/asr/__pycache__/deepgram.cpython-310.pyc
 ai_agent_assist/llm/__pycache__/groq.cpython-310.pyc
 menv/
+myenv/
 ai_presales/llm/__pycache__/groq.cpython-312.pyc
 ai_presales/asr/__pycache__/deepgram.cpython-312.pyc
 ai_presales/tts/__pycache__/deepgram.cpython-312.pyc
 ai_presales/tts/__pycache__/elevenlabs.cpython-312.pyc
+ai_customer_support/tts/__pycache__/elevenlabs.cpython-312.pyc
+ai_customer_support/asr/__pycache__/deepgram_hi.cpython-312.pyc
+ai_customer_support/llm/__pycache__/groq.cpython-312.pyc
+ai_customer_support/llm/__pycache__/groq_hi.cpython-312.pyc
+ai_customer_support/call/__pycache__/piopiy.cpython-312.pyc
+ai_customer_support/tts/__pycache__/elevenlabs_hi.cpython-312.pyc
+myenv/bin/activate
+myenv/bin/activate.fish

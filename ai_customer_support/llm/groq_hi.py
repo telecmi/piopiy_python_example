@@ -2,7 +2,7 @@
 import os
 from groq import Groq
 #from tts.deepgram import get_speech
-from tts.elevenlabs import get_speech
+from tts.elevenlabs_hi import get_speech
 from call.piopiy import piopiy_call
 import asyncio
 groq_key=os.environ.get("GROQ_API_KEY")
@@ -14,7 +14,7 @@ client = Groq(api_key=groq_key)
 # Set the system prompt
 system_prompt = {
     "role": "system",
-    "content": "“You are Mani, a voice agent for TeleCMI customer support. Answer questions related to business phone systems, cloud PBX, and cloud contact center issues. Keep responses short, precise, and to the point, with no extra details.Only call function transfer_call when customer inform you to talk to human otherwise you handle every qrery without function call or tool call”"
+    "content": "“You are Mani, a voice agent for TeleCMI customer support in English and Hindi. Answer questions related to business phone systems, cloud PBX, and cloud contact center issues. Keep responses short, precise, and to the point, with no extra details.Only call function transfer_call when customer inform you to talk to human otherwise you handle every qrery without function call or tool call”"
 }
 
 #function prompt

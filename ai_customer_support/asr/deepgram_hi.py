@@ -4,7 +4,7 @@ import json
 import threading
 import os
 import time
-from llm.groq import chat_with_assistant
+from llm.groq_hi import chat_with_assistant
 
 auth_token = os.getenv("DG_API_KEY")  # Replace 'DEEPGRAM_API_KEY' with your actual authorization token
 headers = {
@@ -13,7 +13,7 @@ headers = {
 
 
 # WebSocket URL
-ws_url = "wss://api.deepgram.com/v1/listen?sample_rate=8000&encoding=linear16&model=nova-2&language=en-IN&smart_format=true&vad_turnoff=500"
+ws_url = "wss://api.deepgram.com/v1/listen?sample_rate=8000&encoding=linear16&model=nova-2&language=hi&smart_format=true&vad_turnoff=500"
 
 global ws_sales
 def start_deepgram():

@@ -13,6 +13,7 @@ def get_speech(text):
     payload = {
      "text": text,
      "voice_id": "EXAVITQu4vr4xnSDxMaL",
+     "model_id": "eleven_multilingual_v2",
      "voice_settings": {"stability":0.1,"similarity_boost": 0.85}
      }
 
